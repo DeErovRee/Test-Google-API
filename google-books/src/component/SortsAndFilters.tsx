@@ -6,23 +6,34 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useSelector } from "react-redux";
-import React from "react";
+// @ts-ignore
+import { useAppDispatch, useAppSelector } from "../hooks.ts";
+// @ts-ignore
+import { changeFilter, changeSort } from "../store/searchSlice.ts";
+import React, { useState } from "react";
+import { nanoid } from "@reduxjs/toolkit";
+
+const categories = [
+  "All",
+  "Art",
+  "Biography",
+  "Computers",
+  "History",
+  "Medical",
+  "Poetry",
+];
+
+const sorts = ["Relevance", "Newest"];
 
 export const SortsAndFilters = () => {
-  const sortValue = useSelector((state: any) => state.search.sort);
+  const dispatch = useAppDispatch();
 
-  const categories = [
-    "All",
-    "Art",
-    "Biography",
-    "Computers",
-    "History",
-    "Medical",
-    "Poetry",
-  ];
-
-  const sorts = ["Relevance", "Newest"];
+  const [filter, setFilter] = useState(
+    useAppSelector((state) => state.search.filter)
+  );
+  const [sort, setSort] = useState(
+    useAppSelector((state) => state.search.sort)
+  );
 
   return (
     <Container
@@ -53,15 +64,20 @@ export const SortsAndFilters = () => {
           </InputLabel>
           <Select
             labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
+            id="filter"
             label="Categories"
-            value={"none"}
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              dispatch(changeFilter(e.target.value));
+            }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {categories.map((el) => {
-              return <MenuItem value={el}>{el}</MenuItem>;
+              return (
+                <MenuItem value={el} key={nanoid(2)}>
+                  {el}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
@@ -71,12 +87,20 @@ export const SortsAndFilters = () => {
           </InputLabel>
           <Select
             labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
+            id="sort"
             label="Sort by"
-            value={sortValue}
+            value={sort}
+            onChange={(e) => {
+              setSort(e.target.value);
+              dispatch(changeSort(e.target.value));
+            }}
           >
             {sorts.map((el) => {
-              return <MenuItem value={el}>{el}</MenuItem>;
+              return (
+                <MenuItem value={el} key={nanoid(2)}>
+                  {el}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>

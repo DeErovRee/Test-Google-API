@@ -3,15 +3,16 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Container, IconButton } from "@mui/material";
 // @ts-ignore
-import { setInput } from "../store/searchSlice.ts";
-import { useDispatch } from "react-redux";
+import { changeInput } from "../store/searchSlice.ts";
+// @ts-ignore
+import { useAppDispatch } from "../hooks.ts";
 
 export const Search = () => {
-  const dispath = useDispatch();
+  const dispath = useAppDispatch();
 
-  const [input, getInput] = useState("");
+  const [input, setInput] = useState("");
   const doSearch = () => {
-    dispath(setInput(input));
+    dispath(changeInput(input));
   };
 
   const keyPress = (e: any) => {
@@ -43,10 +44,10 @@ export const Search = () => {
           variant="outlined"
           sx={{ mr: "5px", width: "60%" }}
           onKeyDown={(e) => keyPress(e)}
-          onChange={(e) => getInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
         />
         <IconButton
-          aria-label="delete"
+          aria-label="find"
           size="large"
           sx={{
             color: "white",

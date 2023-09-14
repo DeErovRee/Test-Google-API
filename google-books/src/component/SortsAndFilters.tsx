@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from "../hooks.ts";
 import { changeFilter, changeSort } from "../store/searchSlice.ts";
 import React, { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
+//@ts-ignore
+import { useSearch } from "../function/useSearch.ts";
 
 const categories = [
   "All",
@@ -28,12 +30,8 @@ const sorts = ["Relevance", "Newest"];
 export const SortsAndFilters = () => {
   const dispatch = useAppDispatch();
 
-  const [filter, setFilter] = useState(
-    useAppSelector((state) => state.search.filter)
-  );
-  const [sort, setSort] = useState(
-    useAppSelector((state) => state.search.sort)
-  );
+  const sort = useAppSelector((state) => state.search.sort);
+  const filter = useAppSelector((state) => state.search.filter);
 
   return (
     <Container
@@ -69,7 +67,6 @@ export const SortsAndFilters = () => {
             label="Categories"
             value={filter}
             onChange={(e) => {
-              setFilter(e.target.value);
               dispatch(changeFilter(e.target.value));
             }}
           >
@@ -92,7 +89,6 @@ export const SortsAndFilters = () => {
             label="Sort by"
             value={sort}
             onChange={(e) => {
-              setSort(e.target.value);
               dispatch(changeSort(e.target.value));
             }}
           >

@@ -4,15 +4,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Container, IconButton } from "@mui/material";
 
 import {
-  changeBooks,
   changeInput,
-  changeTotalBooks,
   // @ts-ignore
 } from "../store/searchSlice.ts";
 // @ts-ignore
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
-import axios from "axios";
-import { keyAPI } from "../API.js";
+// @ts-ignore
+import { useSearch } from "../function/useSearch.ts";
 
 export const Search = () => {
   const dispatch = useAppDispatch();
@@ -20,31 +18,14 @@ export const Search = () => {
   const [input, setInput] = useState("");
 
   const searchInput = useAppSelector((state) => state.search.searchInput);
-  const filter = useAppSelector((state) => state.search.filter);
   const sort = useAppSelector((state) => state.search.sort);
+  const filter = useAppSelector((state) => state.search.filter);
 
-  const doSearch = () => {
-    console.log(searchInput + " " + filter + " " + sort);
-    axios
-      .get("https://www.googleapis.com/books/v1/volumes", {
-        params: {
-          q: searchInput,
-          key: keyAPI,
-          orderBy: sort,
-          maxResults: 40,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        dispatch(changeTotalBooks(response.data.totalItems));
-        dispatch(changeBooks(response.data.items));
-      })
-      .catch((error) => console.log(error.message + error));
-  };
+  const { error, loading } = useSearch({ searchInput, sort, filter });
 
-  const keyPress = (e: any) => {
+  const keyPress = (e) => {
     if (e.code === "Enter") {
-      doSearch();
+      dispatch(changeInput(input));
     }
   };
 
@@ -73,11 +54,10 @@ export const Search = () => {
           label="Поиск"
           variant="outlined"
           sx={{ mr: "5px" }}
-          onKeyDown={(e) => keyPress(e)}
           onChange={(e) => {
             setInput(e.target.value);
-            dispatch(changeInput(e.target.value));
           }}
+          onKeyDown={(e) => keyPress(e)}
         />
         <IconButton
           aria-label="find"
@@ -89,9 +69,8 @@ export const Search = () => {
               backgroundColor: "#1976d2",
             },
           }}
-          onClick={(e) => {
+          onClick={() => {
             dispatch(changeInput(input));
-            doSearch();
           }}
         >
           <SearchIcon />

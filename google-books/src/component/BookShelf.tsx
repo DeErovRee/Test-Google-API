@@ -7,14 +7,14 @@ import { BookCard } from "./BookCard.tsx";
 import { nanoid } from "@reduxjs/toolkit";
 
 export const BookShelf = () => {
-  const category = useAppSelector((state) => state.search.filter);
+  // const category = useAppSelector((state) => state.search.filter);
   const allBooks = useAppSelector((state) => state.search.books);
 
   const totalBooks = useAppSelector((state) => state.search.totalBooks);
 
   return (
     <Container>
-      {totalBooks !== 0 ? <p>Find {totalBooks} results</p> : <></>}
+      <p>Find {totalBooks} results</p>
       <Box
         sx={{
           display: "flex",

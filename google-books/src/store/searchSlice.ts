@@ -22,23 +22,19 @@ const searchSlice = createSlice({
   initialState,
   reducers: {
     changeInput: (state, action: PayloadAction<string>) => {
-      console.log(`In Redux: ${action.payload}`);
       state.searchInput = action.payload;
     },
     changeFilter: (state, action: PayloadAction<string>) => {
-      console.log(`In Redux: ${action.payload}`);
       state.filter = action.payload;
+      console.log("filter changed");
     },
     changeSort: (state, action: PayloadAction<string>) => {
-      console.log(`In Redux: ${action.payload}`);
       state.sort = action.payload;
     },
     changeBooks: (state, action: PayloadAction<Array<object>>) => {
-      console.log(`In Redux: ${action.payload}`);
       state.books = action.payload;
     },
     changeTotalBooks: (state, action: PayloadAction<number>) => {
-      console.log(`In Redux: ${action.payload}`);
       state.totalBooks = action.payload;
     },
   },

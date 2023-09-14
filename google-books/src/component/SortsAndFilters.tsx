@@ -47,6 +47,7 @@ export const SortsAndFilters = () => {
       <h4
         style={{
           color: "#e3e3e3",
+          margin: "5px 0",
         }}
       >
         Filters & sorts

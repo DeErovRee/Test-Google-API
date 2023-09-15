@@ -48,8 +48,9 @@ export const useSearch = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setLoading(true);
     if (!searchInput) return;
+    setError(false);
+    setLoading(true);
     axios
       .get("https://www.googleapis.com/books/v1/volumes", {
         params: {
@@ -60,38 +61,29 @@ export const useSearch = ({
         },
       })
       .then((response) => {
-        console.log(response);
-        const data = response.data.items;
+        let data = response.data.items;
 
-        let filteredData: Array<object> = [];
         if (filter !== "All") {
-          filteredData.push(
-            data
-              .filter((data: DataType) => {
-                return data.volumeInfo.categories !== undefined;
-              })
-              .filter((data: DataType) => {
-                return data.volumeInfo.categories.includes(filter);
-              })
-          );
-        }
-
-        if (filteredData.length === 0) {
+          data = data
+            .filter((data: DataType) => {
+              return data.volumeInfo.categories !== undefined;
+            })
+            .filter((data: DataType) => {
+              return data.volumeInfo.categories.includes(filter);
+            });
           dispatch(changeBooks(data));
-          dispatch(changeTotalBooks(response.data.totalItems));
-        } else {
-          dispatch(changeBooks(filteredData));
-          dispatch(changeTotalBooks(response.data.totalItems));
+          dispatch(changeTotalBooks(data.length));
         }
+        dispatch(changeBooks(data));
+        dispatch(changeTotalBooks(response.data.totalItems));
       })
       .catch((error) => {
-        setError(true);
-        console.log(error.message + error);
+        setError(error.message);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [searchInput, sort, filter]);
 
-  return { loading, error };
+  return { error, loading };
 };

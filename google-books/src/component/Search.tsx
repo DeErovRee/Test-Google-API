@@ -8,21 +8,13 @@ import {
   // @ts-ignore
 } from "../store/searchSlice.ts";
 // @ts-ignore
-import { useAppDispatch, useAppSelector } from "../hooks.ts";
-// @ts-ignore
-import { useSearch } from "../function/useSearch.ts";
+import { useAppDispatch } from "../hooks.ts";
 import { useNavigate } from "react-router-dom";
 
 export const Search = () => {
   const dispatch = useAppDispatch();
 
   const [input, setInput] = useState("");
-
-  const searchInput = useAppSelector((state) => state.search.searchInput);
-  const sort = useAppSelector((state) => state.search.sort);
-  const filter = useAppSelector((state) => state.search.filter);
-
-  const { error, loading } = useSearch({ searchInput, sort, filter });
 
   const navigate = useNavigate();
 

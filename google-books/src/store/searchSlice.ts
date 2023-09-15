@@ -26,7 +26,6 @@ const searchSlice = createSlice({
     },
     changeFilter: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
-      console.log("filter changed");
     },
     changeSort: (state, action: PayloadAction<string>) => {
       state.sort = action.payload;

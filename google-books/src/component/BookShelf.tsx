@@ -5,6 +5,8 @@ import { useAppSelector } from "../hooks.ts";
 // @ts-ignore
 import { BookCard } from "./BookCard.tsx";
 import { nanoid } from "@reduxjs/toolkit";
+//@ts-ignore
+import { SortsAndFilters } from "./SortsAndFilters.tsx";
 
 export const BookShelf = () => {
   // const category = useAppSelector((state) => state.search.filter);
@@ -14,6 +16,7 @@ export const BookShelf = () => {
 
   return (
     <Container>
+      <SortsAndFilters />
       <p>Find {totalBooks} results</p>
       <Box
         sx={{

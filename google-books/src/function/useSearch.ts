@@ -9,6 +9,30 @@ import {
 import { useAppDispatch } from "../hooks.ts";
 import { useEffect, useState } from "react";
 
+export interface DataType {
+  accessInfo: object;
+  etag: string;
+  id: string;
+  kind: string;
+  saleInfo: object;
+  searchInfo: object;
+  selfLink: string;
+  volumeInfo: {
+    authors: [string];
+    categories: [string];
+    description: string;
+    imageLinks: {
+      smallThumbnail: string;
+      thumbnail: string;
+    };
+    language: string;
+    maturityRating: string;
+    pageCount: number;
+    publishedDate: string;
+    title: string;
+  };
+}
+
 export const useSearch = ({
   searchInput,
   sort,
@@ -36,27 +60,28 @@ export const useSearch = ({
         },
       })
       .then((response) => {
-        console.log(response.data.items);
+        console.log(response);
         const data = response.data.items;
 
         let filteredData: Array<object> = [];
         if (filter !== "All") {
           filteredData.push(
             data
-              .filter((el: any) => {
-                return el.volumeInfo.categories !== undefined;
+              .filter((data: DataType) => {
+                return data.volumeInfo.categories !== undefined;
               })
-              .filter((el: any) => {
-                return el.volumeInfo.categories.includes(filter);
+              .filter((data: DataType) => {
+                return data.volumeInfo.categories.includes(filter);
               })
           );
         }
 
         if (filteredData.length === 0) {
-          // dispatch(changeTotalBooks(response.data.items));
           dispatch(changeBooks(data));
+          dispatch(changeTotalBooks(response.data.totalItems));
         } else {
           dispatch(changeBooks(filteredData));
+          dispatch(changeTotalBooks(response.data.totalItems));
         }
       })
       .catch((error) => {

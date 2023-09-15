@@ -5,7 +5,7 @@ interface searchState {
   searchInput: string;
   filter: string;
   sort: string;
-  books: object[];
+  books: Array<object>;
   totalBooks: number;
 }
 

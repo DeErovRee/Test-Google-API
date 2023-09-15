@@ -11,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
 // @ts-ignore
 import { useSearch } from "../function/useSearch.ts";
+import { useNavigate } from "react-router-dom";
 
 export const Search = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,11 @@ export const Search = () => {
 
   const { error, loading } = useSearch({ searchInput, sort, filter });
 
+  const navigate = useNavigate();
+
   const keyPress = (e) => {
     if (e.code === "Enter") {
+      navigate("/");
       dispatch(changeInput(input));
     }
   };
@@ -70,6 +74,7 @@ export const Search = () => {
             },
           }}
           onClick={() => {
+            navigate("/");
             dispatch(changeInput(input));
           }}
         >

@@ -10,10 +10,9 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks.ts";
 // @ts-ignore
 import { changeFilter, changeSort } from "../store/searchSlice.ts";
-import React, { useState } from "react";
+import React from "react";
 import { nanoid } from "@reduxjs/toolkit";
-//@ts-ignore
-import { useSearch } from "../function/useSearch.ts";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   "All",
@@ -28,6 +27,7 @@ const categories = [
 const sorts = ["Relevance", "Newest"];
 
 export const SortsAndFilters = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const sort = useAppSelector((state) => state.search.sort);
@@ -68,6 +68,7 @@ export const SortsAndFilters = () => {
             value={filter}
             onChange={(e) => {
               dispatch(changeFilter(e.target.value));
+              navigate("/");
             }}
           >
             {categories.map((el) => {
@@ -90,6 +91,7 @@ export const SortsAndFilters = () => {
             value={sort}
             onChange={(e) => {
               dispatch(changeSort(e.target.value));
+              navigate("/");
             }}
           >
             {sorts.map((el) => {

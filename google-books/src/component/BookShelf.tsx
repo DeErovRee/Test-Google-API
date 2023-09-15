@@ -9,7 +9,6 @@ import { nanoid } from "@reduxjs/toolkit";
 import { SortsAndFilters } from "./SortsAndFilters.tsx";
 
 export const BookShelf = () => {
-  // const category = useAppSelector((state) => state.search.filter);
   const allBooks = useAppSelector((state) => state.search.books);
 
   const totalBooks = useAppSelector((state) => state.search.totalBooks);
